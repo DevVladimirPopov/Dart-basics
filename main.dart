@@ -33,7 +33,7 @@ void main() {
 // 2.3 Реализуйте метод, который принимает строку слов, разделённых пробелами.
 //Задача — найти в данной строке числа и вернуть коллекцию num этих чисел.
   print("ДЗ ---->  № 2.3");
-  var result = tryParse("Тестовая строка 5 чиcла тут есть 20 наверное )");
+  var result = tryParseStr("Тестовая строка 5 чиcла тут есть 20 наверное )");
   print('Числа разделенные пробелами в исходной строке = $result');
   print('*' * 50);
 // -----------------------------------------
@@ -48,6 +48,24 @@ void main() {
 
   var vocab = listToMap(str);
   print("Результат словарь = $vocab");
+  print('*' * 50);
+// -----------------------------------------
+
+/* 2.5 Есть коллекция строк вида ‘one, two, three, cat, dog’ или любого другого. 
+Реализуйте метод, возвращающий цифры без повторений, которые встречаются в 
+данной строке. Однако цифры встречаются в виде английских слов от zero до nine. 
+Например, в результате строки ‘one, two, zero, zero’ мы получим следующий 
+результат: [1, 2, 0]. Если в строке есть слова, не являющиеся цифрами от 0 до 9, 
+пропускайте их.
+*/
+  print("ДЗ ---->  № 2.5");
+  str =
+      "СТРОКА eight ДЛЯ ТЕСТА nine four 1 2 22  43 eight eight eight ! Специальная :)"
+          .trim()
+          .split(" ");
+  print('Строка на входе - $str');
+  Set<int> resultSet = listToSet(str);
+  print('Список не повторяющихся цифр - $resultSet');
   print('*' * 50);
 // -----------------------------------------
 }
@@ -80,7 +98,8 @@ int binaryToNumber(digits) => int.parse(digits, radix: 2);
 // Преобразования целых чисел из двоичной системы в десятичную.
 String NumberToBinary(digits) => digits.toRadixString(2);
 
-tryParse(String input) {
+// Строку в список намбер.
+tryParseStr(String input) {
   List<String> source = input.trim().split(" ");
   List<int> result = [];
   int x = 0;
@@ -93,6 +112,7 @@ tryParse(String input) {
   return result;
 }
 
+// Преобразуем список в словарь с индикацией повторения слов
 listToMap(List l) {
   var result = {};
   l.forEach((element) {
@@ -103,5 +123,41 @@ listToMap(List l) {
     }
   });
   // print(result);
+  return result;
+}
+
+// Преобразуем список в Сет с прогоном по словарю
+listToSet(List l) {
+  var listNum = [];
+  Set<int> result = {};
+  Map<String, String> vocab = {
+    "one": '1',
+    "two": '2',
+    "three": '3',
+    "four": '4',
+    "five": '5',
+    "six": '6',
+    "seven": '7',
+    "eight": '8',
+    "nine": '9',
+    "ten": '10'
+  };
+  // 1й прогон - заменяем текст на цифры
+  l.forEach((element) {
+    if (vocab.containsKey(element)) {
+      listNum.add(vocab[element]);
+    } else {
+      listNum.add(element);
+    }
+  });
+  var x;
+  print('Строка преобразованная - $listNum');
+  // Второй прогон в сет
+  for (String c in listNum) {
+    if (int.tryParse(c) != null) {
+      x = int.parse(c);
+      result.add(x);
+    }
+  }
   return result;
 }
