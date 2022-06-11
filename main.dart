@@ -37,6 +37,19 @@ void main() {
   print('Числа разделенные пробелами в исходной строке = $result');
   print('*' * 50);
 // -----------------------------------------
+
+// 2.4 Реализуйте метод, который принимает строку слов, разделённых пробелами.
+//Задача — найти в данной строке числа и вернуть коллекцию num этих чисел.
+  print("ДЗ ---->  № 2.4");
+  List<String> str =
+      "Есть коллекция слов TEST Реализуйте метод возвращающий Map Данный TEST Map должен соотносить слово TEST и количество его вхождений в данную коллекцию"
+          .trim()
+          .split(" ");
+
+  var vocab = listToMap(str);
+  print("Результат словарь = $vocab");
+  print('*' * 50);
+// -----------------------------------------
 }
 
 // НОД — это наибольший общий делитель!
@@ -67,20 +80,6 @@ int binaryToNumber(digits) => int.parse(digits, radix: 2);
 // Преобразования целых чисел из двоичной системы в десятичную.
 String NumberToBinary(digits) => digits.toRadixString(2);
 
-/*
-searchNum(String str) {
-  List<num> result = [1, 2];
-  List<String> list = str.split('');
-  print(list);
-
-  for (String c in list) {
-    if (c == null) {
-      print("$c = число");
-    }
-  }
-  return result;
-}
-*/
 tryParse(String input) {
   List<String> source = input.trim().split(" ");
   List<int> result = [];
@@ -91,5 +90,18 @@ tryParse(String input) {
       result.add(x);
     }
   }
+  return result;
+}
+
+listToMap(List l) {
+  var result = {};
+  l.forEach((element) {
+    if (!result.containsKey(element)) {
+      result[element] = 1;
+    } else {
+      result[element] += 1;
+    }
+  });
+  // print(result);
   return result;
 }
