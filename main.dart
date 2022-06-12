@@ -73,7 +73,7 @@ void main() {
   print('*' * 50);
 // -----------------------------------------
 
-/* Реализуйте класс Point, который описывает точку в трёхмерном пространстве. 
+/* 2.6 Реализуйте класс Point, который описывает точку в трёхмерном пространстве. 
 У данного класса реализуйте метод distanceTo(Point another), 
 который возвращает расстояние от данной точки до точки в параметре. 
 Реализуйте factory-конструкторы для данного класса, возвращающие начало 
@@ -84,6 +84,26 @@ void main() {
   Point p1 = Point(5, 5, 60);
   var distance = p1.distanceTo(20, 30, 70);
   print("Дистанция между точками = $distance");
+  // Point Point111 = Point.start();
+  Point Point000 = Point.zero();
+  var distance2 = Point000.distanceTo(50, 60, 80);
+  print("Дистанция от Фактори поинт 000 до заданной точки = $distance2");
+  print('*' * 50);
+
+// -----------------------------------------
+
+/* 2.7 Реализуйте метод, который вычисляет корень любой заданной степени из числа. 
+Реализуйте данный метод как extension-метод для num.  
+В случае когда значение вернуть невозможно, необходимо бросать исключение с 
+описанием ошибки.
+*/
+  print("ДЗ ---->  № 2.7");
+  double number1 = 195;
+  int root = 6;
+  var rootX = RootX(number1, root);
+  result = pow(number1, 1 / root);
+  print(
+      'Корень степени $root из числа $number1 = $rootX  = $result (проверка)');
   print('*' * 50);
 
 // -----------------------------------------
@@ -182,16 +202,45 @@ listToSet(List l) {
 }
 
 class Point {
-  int x = 0;
-  int y = 0;
-  int z = 0;
+  int x;
+  int y;
+  int z;
   var result;
   num summ = 0;
   String res = "";
   Point(this.x, this.y, this.z);
+
+  factory Point.start() {
+    return Point(1, 1, 1);
+  }
+
+  factory Point.zero() {
+    return Point(0, 0, 0);
+  }
+
   distanceTo(int x2, int y2, int z2) {
     summ = pow((x - x2), 2) + pow((y - y2), 2) + pow((z - z2), 2);
     result = pow(summ, 0.5).toStringAsFixed(3);
     return result;
   }
+}
+
+RootX(double number, int rootDeg) {
+  double eps = 0.00001;
+  int count = 1;
+  double root = number / rootDeg;
+  var rn = number;
+  while ((root - rn).abs() > eps) {
+    rn = number;
+    for (int i = 1; i < rootDeg; i = i + 1) {
+      rn = rn / root;
+    }
+    root = 0.5 * (rn + root);
+    count += 1;
+    if (count > 10000000) {
+      throw 'Кол-во итераций > 10 Млн. STOP!';
+    }
+  }
+  print("Кол-во итераций = $count");
+  return root;
 }
