@@ -7,12 +7,9 @@ void main() {
   int fst = 340;
   int sec = 33;
 
-  num nod1 = nod(fst, sec);
-  num nok1 = nok(fst, sec);
-
   print('1е число = $fst / 2е Число = $sec');
-  print('Наибольший общий делитель НОД = $nod1');
-  print('Наименьшее общее кратное НОК = $nok1');
+  print('Наибольший общий делитель НОД = ${nod(fst, sec)}');
+  print('Наименьшее общее кратное НОК = ${nok(fst, sec)}');
   print('*' * 50);
 // -----------------------------------------
 
@@ -23,11 +20,8 @@ void main() {
   int dig1 = 455;
   String str1 = "1111100111";
 
-  var result1 = NumberToBinary(dig1);
-  var result2 = binaryToNumber(str1);
-
-  print("Число $dig1  == $result1 (2й системе)");
-  print("Число $str1 == $result2 (10й системе)");
+  print("Число $dig1  == ${NumberToBinary(dig1)}(2й системе)");
+  print("Число $str1 == ${binaryToNumber(str1)}}(10й системе)");
 
   print('*' * 50);
 // -----------------------------------------
@@ -36,9 +30,8 @@ void main() {
 //Задача — найти в данной строке числа и вернуть коллекцию num этих чисел.
   print("ДЗ ---->  № 2.3");
   str1 = "Тестовая строка 5 чиcла тут есть 20 наверное )";
-  var result = tryParseStr(str1);
   print(str1);
-  print('Числа разделенные пробелами = $result');
+  print('Числа разделенные пробелами = ${tryParseStr(str1)}');
   print('*' * 50);
 // -----------------------------------------
 
@@ -98,12 +91,12 @@ void main() {
 описанием ошибки.
 */
   print("ДЗ ---->  № 2.7");
-  double number1 = 195;
-  int root = 6;
-  var rootX = RootX(number1, root);
-  result = pow(number1, 1 / root);
+  double number1 = 190;
+  int root = 7;
+  var rootResult = RootFrom.rootX(number1, root);
+  var testResult = pow(number1, 1 / root);
   print(
-      'Корень степени $root из числа $number1 = $rootX  = $result (проверка)');
+      'Корень степени $root из числа $number1 = $rootResult  = $testResult (проверка)');
   print('*' * 50);
 
 // -----------------------------------------
@@ -224,7 +217,7 @@ class Point {
     return result;
   }
 }
-
+/*
 RootX(double number, int rootDeg) {
   double eps = 0.00001;
   int count = 1;
@@ -243,4 +236,32 @@ RootX(double number, int rootDeg) {
   }
   print("Кол-во итераций = $count");
   return root;
+}
+*/
+
+//class RootFrom extends num {
+class RootFrom {
+  double number;
+  int rootDeg;
+  RootFrom(this.number, this.rootDeg);
+
+  static rootX(number, rootDeg) {
+    double eps = 0.00001;
+    int count = 1;
+    double root = number / rootDeg;
+    var rn = number;
+    while ((root - rn).abs() > eps) {
+      rn = number;
+      for (int i = 1; i < rootDeg; i = i + 1) {
+        rn = rn / root;
+      }
+      root = 0.5 * (rn + root);
+      count += 1;
+      if (count > 10000000) {
+        throw 'Кол-во итераций > 10 Млн. STOP!';
+      }
+    }
+    print("Кол-во итераций = $count");
+    return root;
+  }
 }
