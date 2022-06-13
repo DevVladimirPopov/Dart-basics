@@ -100,6 +100,33 @@ void main() {
   print('*' * 50);
 
 // -----------------------------------------
+
+/* 2.8  - Создайте класс User, у которого есть поле email. 
+- Реализуйте два наследника данного класса AdminUser и GeneralUser. 
+- Реализуйте mixin над классом User, у которого будет метод getMailSystem, 
+который возвращает значение из email, которое находится после @. 
+Например, если email пользователя user@mail.ru, то данный метод вернёт mail.ru. 
+Используйте данный миксин на AdminUser. 
+- Далее реализуйте класс UserManager<T extends User>, у которого будет 
+храниться список пользователей и будут методы добавления или удаления их. 
+- Также в UserManager реализуйте метод, который выведет почту всех пользователей, 
+однако если пользователь admin, будет выведено значение после @. 
+- Проверьте реализованные методы на практике.
+*/
+  print("ДЗ ---->  № 2.8");
+  AdminUser newAdmin = AdminUser(email: "admin_test@gmail.com");
+  print(
+      'email:${newAdmin.email} / Type: ${newAdmin.userType} / Мыльный-доменн: ${newAdmin.getMailSystem()}');
+  // newAdmin.getMailSystem();
+
+  UserManager userM = UserManager<User>(newAdmin);
+  userM.outPut();
+
+  GeneralUser newUser = GeneralUser(email: "user_test@gmail.com");
+  print('email:${newUser.email} / Type: ${newUser.userType}');
+  print('*' * 50);
+
+// -----------------------------------------
 }
 
 // НОД — это наибольший общий делитель!
@@ -217,29 +244,7 @@ class Point {
     return result;
   }
 }
-/*
-RootX(double number, int rootDeg) {
-  double eps = 0.00001;
-  int count = 1;
-  double root = number / rootDeg;
-  var rn = number;
-  while ((root - rn).abs() > eps) {
-    rn = number;
-    for (int i = 1; i < rootDeg; i = i + 1) {
-      rn = rn / root;
-    }
-    root = 0.5 * (rn + root);
-    count += 1;
-    if (count > 10000000) {
-      throw 'Кол-во итераций > 10 Млн. STOP!';
-    }
-  }
-  print("Кол-во итераций = $count");
-  return root;
-}
-*/
 
-//class RootFrom extends num {
 class RootFrom {
   double number;
   int rootDeg;
@@ -263,5 +268,39 @@ class RootFrom {
     }
     print("Кол-во итераций = $count");
     return root;
+  }
+}
+
+class User {
+  String email;
+  User({required this.email});
+  set setEmail(email) => email;
+}
+
+class AdminUser extends User with MailSystem {
+  AdminUser({required super.email});
+  String userType = "Admin";
+}
+
+class GeneralUser extends User {
+  GeneralUser({required super.email});
+  String userType = "User";
+}
+
+mixin MailSystem on User {
+  getMailSystem() {
+    String result = email.substring(
+      email.indexOf('@'),
+    );
+    return result;
+  }
+}
+
+class UserManager<T extends User> {
+  var user;
+  UserManager(this.user);
+  outPut() {
+    print(
+        'SAVE! email:${user.email} + ТипЮзера: ${user.userType} + Домен: ${user.getMailSystem()}');
   }
 }
