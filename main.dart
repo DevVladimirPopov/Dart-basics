@@ -114,17 +114,28 @@ void main() {
 - Проверьте реализованные методы на практике.
 */
   print("ДЗ ---->  № 2.8");
+// + Админ
   AdminUser newAdmin = AdminUser(email: "admin_test@gmail.com");
-  print(
-      'email:${newAdmin.email} / Type: ${newAdmin.userType} / Мыльный-доменн: ${newAdmin.getMailSystem()}');
-  // newAdmin.getMailSystem();
-
   UserManager userM = UserManager<User>(newAdmin);
-  userM.outPut();
-
+  userM.addEmail();
+// + юзер 1
   GeneralUser newUser = GeneralUser(email: "user_test@gmail.com");
-  print('email:${newUser.email} / Type: ${newUser.userType}');
-  print('*' * 50);
+  userM = UserManager<User>(newUser);
+  userM.addEmail();
+// + юзер 2
+  GeneralUser newUser2 = GeneralUser(email: "user22_test@gmail.com");
+  userM = UserManager<User>(newUser2);
+  userM.addEmail();
+
+// принт список юзерей
+  userM.printUsers();
+// Удаляем юзера 1
+  userM = UserManager<User>(newUser);
+  userM.delMail();
+// принт список юзерей
+  userM.printUsers();
+
+  print('-- DONE!!! --' * 7);
 
 // -----------------------------------------
 }
@@ -221,6 +232,7 @@ listToSet(List l) {
   return result;
 }
 
+// Класс точка
 class Point {
   int x;
   int y;
@@ -238,6 +250,7 @@ class Point {
     return Point(0, 0, 0);
   }
 
+// дистанция к точке
   distanceTo(int x2, int y2, int z2) {
     summ = pow((x - x2), 2) + pow((y - y2), 2) + pow((z - z2), 2);
     result = pow(summ, 0.5).toStringAsFixed(3);
@@ -245,6 +258,7 @@ class Point {
   }
 }
 
+// Корень из числа
 class RootFrom {
   double number;
   int rootDeg;
@@ -271,22 +285,26 @@ class RootFrom {
   }
 }
 
+// Супер класс юзер
 class User {
   String email;
   User({required this.email});
   set setEmail(email) => email;
 }
 
+// Подкласс AdminUser
 class AdminUser extends User with MailSystem {
   AdminUser({required super.email});
   String userType = "Admin";
 }
 
+// Подкласс GeneralUser
 class GeneralUser extends User {
   GeneralUser({required super.email});
   String userType = "User";
 }
 
+// Миксин обрезающий домен
 mixin MailSystem on User {
   getMailSystem() {
     String result = email.substring(
@@ -296,11 +314,29 @@ mixin MailSystem on User {
   }
 }
 
+// Т класс список юзерей
 class UserManager<T extends User> {
   var user;
+  static Map usersList = {};
   UserManager(this.user);
-  outPut() {
-    print(
-        'SAVE! email:${user.email} + ТипЮзера: ${user.userType} + Домен: ${user.getMailSystem()}');
+
+  void addEmail() {
+    if (user.userType == "Admin") {
+      var domen = "*****" + user.getMailSystem();
+      usersList.addAll({user.email: domen});
+      print('Добавили Админа --> ${domen}');
+    } else {
+      usersList.addAll({user.email: user.email});
+      print('Добавили Юзера --> ${user.email}');
+    }
+  }
+
+  void printUsers() {
+    print('Вывели список пользователей --> ${usersList.values}');
+  }
+
+  void delMail() {
+    usersList.remove(user.email);
+    print('Удалили Юзера--> ${user.email}');
   }
 }
