@@ -337,6 +337,7 @@ class UserManager<T extends User> {
 
   void delMail() {
     usersList.remove(user.email);
-    print('Удалили Юзера--> ${user.email}');
+
+    print('Удаляем Юзера--> ${user.email}');
   }
 }
